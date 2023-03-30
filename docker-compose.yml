@@ -1,0 +1,55 @@
+version: '1.0'
+name: economics_lr1_prod
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: production
+    container_name: brief_client
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    container_name: brief_server
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5000:5000
+    environment:
+      DB_NAME: economics
+      DB_USER: economics
+      DB_PASSWORD: root
+      DB_PORT: 5432
+      DB_HOST: brief_database
+      DB_CONNECTION_RETRIES: 10
+      DB_CONNECTION_RETRIES_DELAY: 5000
+      NODE_ENV: production
+    depends_on:
+      - database
+    command: npm run start
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://brief_server:5000/api/ping"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  database:
+    container_name: brief_database
+    image: postgres
+    ports:
+      - 5001:5432
+    environment:
+      POSTGRES_USER: economics
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: economics
+    volumes:
+      - ./data:/var/lib/postgresql/data

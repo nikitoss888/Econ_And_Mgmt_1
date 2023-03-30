@@ -33,7 +33,8 @@ const router = createBrowserRouter([
                             }
                         )
                     }
-                    return await fetch("http://localhost:5000/api/brief/", {
+
+                    return await fetch(`/api/brief/`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",

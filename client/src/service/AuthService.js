@@ -1,10 +1,9 @@
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
-import {json} from "react-router-dom";
 
 export async function loginService(login, password) {
     let result;
-    await fetch("http://localhost:5000/api/user/login", {
+    await fetch(`/api/user/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

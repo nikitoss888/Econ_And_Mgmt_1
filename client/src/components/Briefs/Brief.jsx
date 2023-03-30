@@ -1,14 +1,28 @@
-import styled from "styled-components";
-import {Accordion, AccordionSummary, AccordionDetails, Typography} from "@mui/material";
-import {Expand} from "@mui/icons-material";
+import {Accordion, AccordionSummary, AccordionDetails, Typography, Button } from "@mui/material";
 import BriefSection from "./BriefSection";
+import React from "react";
+import styled from "styled-components";
+
+const ListElement = styled.li`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-block: 10px;
+`;
 
 export default function Brief(props) {
-    const {brief} = props;
+    const {brief, deleteBrief} = props;
     const date = new Date(brief.createdAt);
 
+    const deleteHandler = () => {
+        console.log("Delete brief with id: " + brief.id);
+        deleteBrief(brief.id);
+    }
+
     return (
-        <li>
+        <ListElement>
             <Accordion
                 id={brief.id.toString(16)}
                 sx={{
@@ -24,6 +38,10 @@ export default function Brief(props) {
                         marginBottom: 1
                     }
                 }}>
+                    <Button onClick={deleteHandler} variant={"contained"} color={"error"}>
+                        Видалити
+                    </Button>
+
                     <BriefSection title="Опис проекту" property={brief.description} />
                     <BriefSection title="Бюджет" property={brief.budget} />
                     <BriefSection title="Термін виконання" property={brief.deadline} />
@@ -43,6 +61,6 @@ export default function Brief(props) {
                     <BriefSection title="Додатково" property={brief.additional} />
                 </AccordionDetails>
             </Accordion>
-        </li>
+        </ListElement>
     )
 }
