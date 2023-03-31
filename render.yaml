@@ -54,7 +54,7 @@ services:
         DB_PORT: '5432'
         DB_HOST: brief_database
 
-    - type: database
+    - type: web
       name: brief_database
       image: postgres
       env:
