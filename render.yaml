@@ -1,5 +1,5 @@
 services:
-  client:
+  - client:
     build:
       name: brief_client
       context: ./client
@@ -18,7 +18,7 @@ services:
         source: node_modules
         target: /usr/src/app/node_modules
 
-  server:
+  - server:
     build:
       name: brief_server
       context: ./server
@@ -52,7 +52,7 @@ services:
       DB_PORT: '5432'
       DB_HOST: brief_database
 
-  database:
+  - database:
     image: postgres
     env:
       - POSTGRES_USER=economics
@@ -65,6 +65,6 @@ services:
         source: postgres-data
         target: /var/lib/postgresql/data
 
-volumes:
-  node_modules:
-  postgres-data:
+#volumes:
+#  node_modules:
+#  postgres-data:
